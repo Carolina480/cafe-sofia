@@ -24,7 +24,7 @@ _(Lo importante para retomar. Sin claves ni contraseñas.)_
 - Tiene su backend de Apps Script publicado (URL /exec; no se anota aquí porque el repo es público: va en Vercel).
 - Espejo del backend: apps-script/Codigo.gs (= "Sin título.gs" en Apps Script) e apps-script/Index.html (tablero). Ignorados por .gitignore. No tiene Pedidos.gs todavía.
 - Variable en Vercel: APPS_SCRIPT_URL (Production, Preview, Development).
-- Token entre servidores: en Vercel se llama APPS_SCRIPT_TOKEN (3 entornos, marcado Sensitive); en Apps Script es la Script Property API_TOKEN. Si se cambia, cambiarlo en los dos lados.
+- Token entre servidores: en Vercel se llama APPS_SCRIPT_TOKEN (3 entornos); en Apps Script es la Script Property API_TOKEN. Si se cambia, cambiarlo en los dos lados.
 - Backend: el código de apps-script/Ventas.gs está en Apps Script como "Sin título 2.gs" (doPost). Implementación: Ejecutar como Yo, acceso "Cualquiera". Siempre publicar con lápiz → Nueva versión.
 - Ojo: los ids de la tienda (armstrong, fitzgerald, holiday, coltrane, monk) no están en la hoja 'carta'/'recetas' de la planilla: la venta se anota pero no descuenta stock hasta cargarlos (Etapa 8/9).
 - El proyecto es HTML/CSS/JS simple (index.html, style.css, script.js), no React + Vite.
