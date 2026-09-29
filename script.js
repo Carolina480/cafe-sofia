@@ -1,11 +1,5 @@
 (function(){
-  var PRODUCTS = [
-    {id:'armstrong', name:'Blend Armstrong', type:'Espresso', comp:'Espresso intenso, cardamomo y chocolate amargo.', price:3200, stock:18},
-    {id:'fitzgerald', name:'Cápsula Fitzgerald', type:'Capuchino', comp:'Espresso suave, leche de avena y vainilla.', price:2900, stock:24},
-    {id:'holiday', name:'Cápsula Holiday', type:'Macchiato', comp:'Espresso robusto con caramelo salado.', price:3400, stock:6},
-    {id:'coltrane', name:'Cápsula Coltrane', type:'Americano doble', comp:'Espresso doble, canela y ralladura de naranja.', price:3600, stock:15},
-    {id:'monk', name:'Cápsula Monk (descafeinado)', type:'Descafeinado', comp:'Descafeinado suave con notas a nuez tostada.', price:2800, stock:30}
-  ];
+  var PRODUCTS = CATALOGO; // viene de catalogo.js
 
   var cart = {}; // id -> qty
   var qtyPicker = {}; // id -> qty currently selected on card, before adding
@@ -300,18 +294,61 @@
     if(e.target.id === 'backToCart'){ checkoutMode = false; renderDrawer(); }
     if(e.target.id === 'clearCart'){ cart = {}; updateCartCount(); }
     if(e.target.id === 'confirmOrder'){
-      lastOrderNumber = 'SOFIA-' + Math.floor(1000 + Math.random()*9000);
-      cart = {};
-      checkoutMode = false;
-      confirmedMode = true;
-      updateCartCount();
-      playChime();
+      confirmarPedido(e.target);
     }
     if(e.target.id === 'newOrder'){
       confirmedMode = false;
       renderDrawer();
     }
   });
+
+  // Registra el pedido en el backend a través de la función serverless /api/pedido.
+  // Solo viajan ids y cantidades: los precios los recalcula el servidor.
+  function confirmarPedido(btn){
+    var textoOriginal = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Registrando tu pedido…';
+    mostrarErrorPedido('');
+
+    var items = cartItems().map(function(it){ return {id:it.p.id, qty:it.qty}; });
+    fetch('/api/pedido', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({items:items, metodo:paymentMethod})
+    })
+    .then(function(r){
+      return r.json().catch(function(){ return {ok:false}; });
+    })
+    .then(function(data){
+      if(!data.ok) throw new Error(data.error || 'No pudimos registrar tu pedido.');
+      lastOrderNumber = data.orderId;
+      cart = {};
+      checkoutMode = false;
+      confirmedMode = true;
+      updateCartCount();
+      playChime();
+    })
+    .catch(function(err){
+      btn.disabled = false;
+      btn.textContent = textoOriginal;
+      mostrarErrorPedido(err && err.message && err.message !== 'Failed to fetch'
+        ? err.message
+        : 'No pudimos conectarnos. Revisá tu conexión y probá de nuevo.');
+    });
+  }
+
+  function mostrarErrorPedido(msg){
+    var box = document.getElementById('orderError');
+    if(!box){
+      box = document.createElement('p');
+      box.id = 'orderError';
+      box.className = 'note order-error';
+      box.setAttribute('role', 'alert');
+      drawerFoot.insertBefore(box, drawerFoot.firstChild);
+    }
+    box.textContent = msg;
+    box.hidden = !msg;
+  }
 
   // drawer open/close
   var drawer = document.getElementById('drawer');

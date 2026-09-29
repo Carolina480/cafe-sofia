@@ -6,7 +6,7 @@
 - [x] Etapa 2 · Vercel — URL pública — https://cafe-sofia-beta.vercel.app
 
 ## Clase 6 · Conectar con el mundo real
-- [ ] Etapa 3 · La arquitectura, como un restaurante
+- [x] Etapa 3 · La arquitectura, como un restaurante — entendió frontend vs backend
 - [ ] Etapa 4 · Conectar el frontend con el backend
 - [ ] Etapa 5 · Variables de entorno
 - [ ] Etapa 6 · El token entre servidores — HITO 2
@@ -21,6 +21,8 @@ _(Lo importante para retomar. Sin claves ni contraseñas.)_
 - Usuario de GitHub: Carolina480. Git configurado con nombre "Carolina Rios".
 - Repositorio: https://github.com/Carolina480/cafe-sofia (público, rama main).
 - Vercel: proyecto importado desde GitHub (preset Other). URL pública: https://cafe-sofia-beta.vercel.app
-- Clase 5 terminada. Próxima sesión: Etapa 3 (Clase 6).
+- Tiene su backend de Apps Script publicado (URL /exec; no se anota aquí porque el repo es público: va en Vercel).
+- Espejo del backend: apps-script/Codigo.gs (= "Sin título.gs" en Apps Script) e apps-script/Index.html (tablero). Ignorados por .gitignore. No tiene Pedidos.gs todavía.
+- Variable en Vercel: APPS_SCRIPT_URL (Production, Preview, Development).
 - El proyecto es HTML/CSS/JS simple (index.html, style.css, script.js), no React + Vite.
 - La guía está instalada en C:\Users\Usuario\.claude\skills\guia-cafe-sofia (con etapas.md).
