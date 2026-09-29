@@ -1,0 +1,13 @@
+# Claves y configuración privada: nunca a GitHub
+.env
+.env.*
+
+# Copia de referencia del backend de Apps Script
+apps-script/
+
+# Archivos del sistema y del editor
+.DS_Store
+Thumbs.db
+.vscode/
+.vercel/
+node_modules/

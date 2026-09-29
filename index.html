@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café SofIA</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar" id="topbar" hidden>
+  <div class="brandmini">Café Sof<span class="ia-mark">IA</span></div>
+  <button class="cart-btn" id="openCart" aria-haspopup="dialog">
+    <span>Carrito</span>
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
+</div>
+
+<main id="landing">
+  <div class="wrap hero">
+    <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="kicker">Café con IA · desde 1957 (más o menos)</div>
+    <h1>Café Sof<span class="ia-mark">IA</span></h1>
+    <p class="lede">Un café de otra época que piensa con inteligencia artificial de hoy. Mirá cómo la IA elige el tueste, cuida el stock y arma tu pedido — nosotros, los de carne y hueso, servimos la taza.</p>
+    <div class="readout mono" id="readout">IA revisando stock de insumos…</div>
+    <div class="cta-row">
+      <button class="btn-primary" id="enterShop">Entrar a la experiencia →</button>
+      <span class="hint">Elegí tu café, después vas al carrito.</span>
+    </div>
+
+    <div class="value-strip">
+      <div>
+        <span class="num">01 — Transparencia</span>
+        <h3>La IA no se esconde</h3>
+        <p>Cada decisión que toma —qué reponer, qué sugerir— queda a la vista, como una partitura abierta.</p>
+      </div>
+      <div>
+        <span class="num">02 — Estilo</span>
+        <h3>Alma de los años 50</h3>
+        <p>Jazz de fondo, líneas limpias, sin adornos de más. Minimalismo con swing.</p>
+      </div>
+      <div>
+        <span class="num">03 — Lo humano</span>
+        <h3>Serví la cápsula una persona</h3>
+        <p>La tecnología elige y organiza; la taza siempre la prepara alguien de carne y hueso.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<section id="shop" hidden>
+  <div class="wrap">
+    <div class="shopnav">
+      <button class="back-link" id="backToLanding">← Volver al inicio</button>
+    </div>
+    <div class="shop-head">
+      <h2>La Carta</h2>
+      <p>Cinco cápsulas, elegidas y controladas en stock por Sof<span class="ia-mark">IA</span>. Agregá las que quieras a tu carrito — el pago se hace después, por transferencia.</p>
+    </div>
+
+    <div class="howitworks">
+      <div class="step"><span class="n">01</span><p>La IA revisa el stock y arma las sugerencias del día.</p></div>
+      <div class="step"><span class="n">02</span><p>Vos elegís tus cápsulas y armás el pedido en el carrito.</p></div>
+      <div class="step"><span class="n">03</span><p>Un barista humano prepara y sirve tu café, siempre.</p></div>
+    </div>
+
+    <div class="menu-title">
+      <h3>Cápsulas disponibles</h3>
+      <span class="mono">stock en tiempo real</span>
+    </div>
+
+    <div class="grid" id="productGrid"></div>
+  </div>
+</section>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-label="Carrito de compra">
+  <div class="drawer-head">
+    <h3 id="drawerTitle">Tu carrito</h3>
+    <button id="closeCart" aria-label="Cerrar carrito">×</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot" id="drawerFoot"></div>
+</aside>
+
+<script src="script.js"></script>
+</body>
+</html>
