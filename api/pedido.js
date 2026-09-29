@@ -2,8 +2,8 @@
 //
 // Recibe el carrito desde la tienda, recalcula precios con la carta oficial
 // (catalogo.js) y avisa la venta al backend de Google Apps Script.
-// La URL del backend vive en la variable de entorno APPS_SCRIPT_URL:
-// nunca llega al navegador del cliente.
+// La URL del backend (APPS_SCRIPT_URL) y la contraseña compartida con él
+// (APPS_SCRIPT_TOKEN) viven en variables de entorno: nunca llegan al navegador.
 
 const CATALOGO = require('../catalogo.js');
 
@@ -18,8 +18,9 @@ module.exports = async function handler(req, res) {
   }
 
   const backendUrl = process.env.APPS_SCRIPT_URL;
-  if (!backendUrl) {
-    console.error('Falta la variable de entorno APPS_SCRIPT_URL.');
+  const backendToken = process.env.APPS_SCRIPT_TOKEN;
+  if (!backendUrl || !backendToken) {
+    console.error('Falta la variable de entorno ' + (!backendUrl ? 'APPS_SCRIPT_URL' : 'APPS_SCRIPT_TOKEN') + '.');
     return res.status(500).json({ ok: false, error: 'La tienda no está configurada todavía.' });
   }
 
@@ -31,7 +32,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const respuesta = await enviarAlBackend(backendUrl, pedido);
+    const respuesta = await enviarAlBackend(backendUrl, backendToken, pedido);
     if (!respuesta.ok) {
       console.error('El backend rechazó el pedido', pedido.orderId, respuesta.error);
       return res.status(502).json({ ok: false, error: 'No pudimos registrar tu pedido. Probá de nuevo en un momento.' });
@@ -72,14 +73,15 @@ function nuevoOrderId() {
 
 // Manda la comanda a Apps Script. Apps Script responde con una redirección
 // que fetch sigue sola; al final devuelve el JSON de doPost.
-async function enviarAlBackend(url, pedido) {
+// El token viaja dentro del cuerpo porque doPost no puede leer encabezados HTTP.
+async function enviarAlBackend(url, token, pedido) {
   const control = new AbortController();
   const reloj = setTimeout(function () { control.abort(); }, TIMEOUT_BACKEND_MS);
   try {
     const r = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(pedido),
+      body: JSON.stringify(Object.assign({ token: token }, pedido)),
       redirect: 'follow',
       signal: control.signal
     });
